@@ -8,8 +8,8 @@ DESTDIR=
 all: libutil.a
 
 install: all
-	echo cp *.h $(DESTDIR)$(PREFIX)/include
-	echo cp *.a $(DESTDIR)$(PREFIX)/lib
+	cp *.h $(DESTDIR)$(PREFIX)/include
+	cp *.a $(DESTDIR)$(PREFIX)/lib
 
 libutil.a: shr.o shr_64.o
 	ar -X32_64 crlo $@ $^
