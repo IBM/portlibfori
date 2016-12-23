@@ -26,30 +26,6 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <string.h>
-#ifdef DEBUG
-#include <stdio.h>
-#include <stdarg.h>
-
-int debug(const char* format, ...)
-{
-  va_list args;
-  va_start(args, format);
-  
-  return vfprintf(stderr, format, args);
-}
-
-#else
-#define debug(a, ...)
-#endif
-
-int openpty(int *amaster, int *aslave, char *name, const struct termios *termp, const struct winsize *winp);
-pid_t forkpty(int *amaster, char *name, const struct termios *termp, const struct winsize *winp);
-
-#define HAVE_LOGIN_TTY
-
-#ifdef HAVE_LOGIN_TTY
-int login_tty(int fd);
-#endif
 
 int openpty(int *amaster, int *aslave, char *name, const struct termios *termp, const struct winsize *winp)
 {
@@ -111,7 +87,6 @@ pid_t forkpty(int *amaster, char *name, const struct termios *termp, const struc
         return -1;
     }
     
-#ifdef HAVE_LOGIN_TTY
     if(openpty(&master, &slave, name, termp, winp) < 0)
     {
       return (pid_t) -1;
@@ -142,71 +117,8 @@ pid_t forkpty(int *amaster, char *name, const struct termios *termp, const struc
     }
     
     return pid;
-#else
-
-    if ((master = open("/dev/ptc", O_RDWR | O_NOCTTY)) == -1)
-    {
-        return -1;
-    }
-    *amaster = master;
-    debug("master = %d\n", master);
-    
-    if(termp != NULL && tcsetattr(master, TCSANOW, termp) == -1) return -1;
-    if(winp != NULL && ioctl(master, TIOCSWINSZ, winp) == -1) return -1;
-    
-    pid = fork();
-    if(pid == 0)
-    {
-        int slave;
-        const char* tty_path;
-        
-        if ((tty_path = ttyname(master)) == NULL)
-        {
-            int save_errno = errno;
-            close(master);
-            errno = save_errno;
-            return -1;
-        }
-        debug("%s\n", tty_path);
-        close(master);
-        
-        // allocate a new session
-        if(setsid() == -1) return -1;
-        
-        // When slave is opened, it will become the controlling terminal
-        if ((slave = open(tty_path, O_RDWR)) == -1) return -1;
-        debug("slave = %d\n", slave);
-        
-        if ((tty_path = ttyname(slave)) == NULL) return -1;
-        debug("%s\n", tty_path);
-        
-        // Not supported in PASE
-        // if(revoke(tty_path) == -1) goto error;
-        
-        if(name != NULL)
-        {
-            strcpy(name, tty_path);
-        }
-    
-        // point stdin, stdout, stderr at slave tty,
-        // closing the original descriptors
-        if(dup2(slave, 0) == -1) return -1;
-        if(dup2(slave, 1) == -1) return -1;
-        if(dup2(slave, 2) == -1) return -1;
-        
-        // close the tty
-        close(slave);
-    }
-    else if(pid < 0)
-    {
-        close(master);
-    }
-#endif
-    
-    return pid;
 }
 
-#ifdef HAVE_LOGIN_TTY
 int login_tty(int fd)
 {
     const char* tty_path;
@@ -246,4 +158,3 @@ int login_tty(int fd)
     
     return 0;
 }
-#endif

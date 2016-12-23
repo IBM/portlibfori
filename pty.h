@@ -36,7 +36,7 @@ extern "C" {
 
 int openpty(int *amaster, int *aslave, char *name, const struct termios *termp, const struct winsize *winp);
 pid_t forkpty(int *amaster, char *name, const struct termios *termp, const struct winsize *winp);
-// int login_tty(int fd);
+int login_tty(int fd);
 
 #ifdef __cplusplus
 }
