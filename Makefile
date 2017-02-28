@@ -17,13 +17,13 @@ libutil.a: shr.o shr_64.o
 	ar -X32_64 crlo $@ $^
 
 shr_64.o: $(OBJ64)
-	$(CC) -maix64 $(CFLAGS) $(LDFLAGS) -shared -o $@ $^
+	$(CC) -maix64 $(CFLAGS) $(LDFLAGS) $(LDFLAGS64) -shared -o $@ $^
 	
 %_64.o: %.c
 	$(CC) -maix64 -c $(CFLAGS) -o $@ $<
 
 shr.o: $(OBJ)
-	$(CC) -maix32 $(CFLAGS) $(LDFLAGS) -shared -o $@ $^
+	$(CC) -maix32 $(CFLAGS) $(LDFLAGS) $(LDFLAGS32) -shared -o $@ $^
 	
 %.o: %.c
 	$(CC) -maix32 -c $(CFLAGS) -o $@ $<
