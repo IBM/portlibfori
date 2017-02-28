@@ -8,7 +8,9 @@ DESTDIR=
 all: libutil.a
 
 install: all
+	mkdir -p $(DESTDIR)$(PREFIX)/include
 	cp *.h $(DESTDIR)$(PREFIX)/include
+	mkdir -p $(DESTDIR)$(PREFIX)/lib
 	cp *.a $(DESTDIR)$(PREFIX)/lib
 
 libutil.a: shr.o shr_64.o
