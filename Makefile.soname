@@ -12,7 +12,7 @@ install: all
 	mkdir -p $(DESTDIR)$(PREFIX)/include
 	cp *.h $(DESTDIR)$(PREFIX)/include
 	mkdir -p $(DESTDIR)$(PREFIX)/lib
-	cp *.so* $(DESTDIR)$(PREFIX)/lib
+	cp -d *.so* $(DESTDIR)$(PREFIX)/lib
 
 libutil.so.1: shr_64.o shr_64.imp
 	strip -X32_64 -e shr_64.o
