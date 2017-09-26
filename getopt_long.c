@@ -98,7 +98,7 @@ char    *optarg;                /* argument associated with option */
 #endif
 
 #ifdef __PASE__
-int optreset;                   /* AIX getopt doesn't support optreset */
+static int optreset;                   /* AIX getopt doesn't support optreset */
 #endif
 
 #define PRINT_ERROR     ((opterr) && (*options != ':'))
