@@ -15,7 +15,7 @@ install: all
 	cp *.so* $(DESTDIR)$(PREFIX)/lib
 
 libutil.so.1: shr_64.o shr_64.imp
-	strip -e shr_64.o
+	strip -X32_64 -e shr_64.o
 	ar -X32_64 crlo $@ $^
 	ln -s $@ libutil.so
 	
