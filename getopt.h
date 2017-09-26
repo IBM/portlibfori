@@ -75,7 +75,9 @@ extern int optind, opterr, optopt;
 #endif
 #ifndef _OPTRESET_DECLARED
 #define _OPTRESET_DECLARED
+#ifndef __PASE__
 extern int optreset;                    /* getopt(3) external variable */
+#endif
 #endif
 
 #ifdef __cplusplus
