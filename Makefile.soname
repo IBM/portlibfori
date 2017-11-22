@@ -1,6 +1,6 @@
 CC=gcc
-OBJ=getopt_long.o pty.o
-OBJ64=getopt_long_64.o pty_64.o
+OBJ=getopt_long.o pty.o mkdtemp.o
+OBJ64=getopt_long_64.o pty_64.o mkdtemp_64.o
 CFLAGS=-I. -D__PASE__
 LDFLAGS=-Wl,-brtl -Wl,-bnortllib -Wl,-bexpall
 PREFIX=/usr/local
