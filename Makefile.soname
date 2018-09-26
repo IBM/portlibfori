@@ -6,7 +6,7 @@ LDFLAGS=-Wl,-brtl -Wl,-bnortllib -Wl,-bexpall
 PREFIX=/usr/local
 DESTDIR=
 
-all: libutil.so.1
+all: libutil.so.1 libiperf.so.1
 
 install: all
 	mkdir -p $(DESTDIR)$(PREFIX)/include
@@ -41,4 +41,6 @@ shr.o: $(OBJ)
 .PHONY: clean
 
 clean:
-	rm -f *.a *.o *.so*
+	rm -f *.a *.o *.so *.so.* *.imp
+
+include libiperf.mk.soname

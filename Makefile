@@ -5,7 +5,7 @@ CFLAGS=-I. -D__PASE__
 PREFIX=/usr/local
 DESTDIR=
 
-all: libutil.a
+all: libutil.a libiperf.a
 
 install: all
 	mkdir -p $(DESTDIR)$(PREFIX)/include
@@ -32,3 +32,5 @@ shr.o: $(OBJ)
 
 clean:
 	rm -f *.a *.o
+
+include libiperf.mk
