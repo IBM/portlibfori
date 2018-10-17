@@ -6,16 +6,16 @@ extern "C" {
 #endif
 
 typedef struct { 
-    int ncpus_onli;          /* number of online processors */
-    int ncpus_conf;          /* number of configured processors */
+    int ncpus_online;          /* number of online processors */
+    int ncpus_configured;          /* number of configured processors */
 } iperfstat_cpu_number_t;
 
 
 /* Get cpu number */
-int iperfstat_cpu_getNumber(iperfstat_cpu_number_t* userbuf);
+int iperfstat_cpu_get_number(iperfstat_cpu_number_t* userbuf);
 
 /* Get main storage size(in kilobytes) */
-int iperfstat_memory_getMSsize();
+int iperfstat_memory_get_main_storage_size();
 
 
 #ifdef __cplusplus

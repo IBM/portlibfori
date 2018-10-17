@@ -4,23 +4,19 @@
 #include "ibmiperfstat.h"
 
 /*
- * NAME: iperfstat_memory_getMSsize
+ * NAME: iperfstat_memory_get_main_storage_size
  *
- * FUNCTION: Retrieves Main Storage Size in kilobytes
+ * FUNCTION: Get main storage size in kilobytes
  *
- * PARAMETER:NULL
+ * PARAMETER:void
  *
  * RETURNS:
  * main storage size is returned if success.
  * -1 is returned if fail.
  */
-int iperfstat_memory_getMSsize()
+int iperfstat_memory_get_main_storage_size()
 {
-   const char* objname = "QWCRSSTS";
-   const char* libname = "QSYS";
-
-   char ilepContainer[sizeof(ILEpointer) + 16];
-   ILEpointer* qsyrusri_pointer= (ILEpointer*)(((size_t)(ilepContainer) + 0xf) & ~0xf);
+   ILEpointer qsyrusri_pointer __attribute__((aligned(16)));
 
    char rcvr[148];
    int rcvrlen = sizeof(rcvr);
@@ -36,30 +32,24 @@ int iperfstat_memory_getMSsize()
  	char msgid[7];
  	char reserved;
  	char exception_data[64];
-   } errcode;
-   void *qsyrusri_argv[6];
-
-   memset(ilepContainer, 0 , sizeof(ilepContainer));
+   } errcode = { sizeof(errcode) };
+   /* initialize the array of argumnet pointers for the API */
+   void *qsyrusri_argv[]={
+        &rcvr,
+        &rcvrlen,
+        &format,
+        &reset_status,
+        &errcode,
+        NULL
+   };
 
    /*Set the IBM i pointer to the QSYS/QWCRSSTS *PGM object*/
-   if(0 != _RSLOBJ2(qsyrusri_pointer, RSLOBJ_TS_PGM, objname, libname)) {
+   if(0 != _RSLOBJ2(&qsyrusri_pointer, RSLOBJ_TS_PGM, "QWCRSSTS", "QSYS")) {
          return -1;
    }
-   /* initialize the QWCRSSTS returned info structure and error code structure  */
-   memset(rcvr, 0, sizeof(rcvr));
-   memset(&errcode, 0, sizeof(errcode));
-   errcode.bytes_provided = sizeof(errcode);
-
-   /* initialize the array of argument pointers for the API */
-   qsyrusri_argv[0] = &rcvr;
-   qsyrusri_argv[1] = &rcvrlen;
-   qsyrusri_argv[2] = &format;
-   qsyrusri_argv[3] = &reset_status;
-   qsyrusri_argv[4] = &errcode;
-   qsyrusri_argv[5] = NULL;
 
    /* Call the IBM i QWCRSSTS API from PASE for i */
-   if(0 != _PGMCALL((const ILEpointer*)qsyrusri_pointer, (void*)&qsyrusri_argv, 0)) {
+   if(0 != _PGMCALL(&qsyrusri_pointer, &qsyrusri_argv, 0)) {
  	return -1;
    }
 
@@ -71,4 +61,3 @@ int iperfstat_memory_getMSsize()
    return (*((int *)(&rcvr[72]))); /* Main storage size, in kilobytes*/
 
 }
-

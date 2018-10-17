@@ -4,9 +4,9 @@
 #include "ibmiperfstat.h"
 
 /*
- * NAME: iperfstat_cpu_getNumber
+ * NAME: iperfstat_cpu_get_number
  *
- * FUNCTION: Retrieves the fields of the iperfstat_cpu_number_t structure
+ * FUNCTION: Get the fields of the iperfstat_cpu_number_t structure
  *
  * PARAMETER:
  *      Input: userbuf        : the structure to be filled
@@ -16,7 +16,7 @@
  * 0 is returned if success.
  * -1 is returned if fail.
  */
-int iperfstat_cpu_getNumber(iperfstat_cpu_number_t * userbuf)
+int iperfstat_cpu_get_number(iperfstat_cpu_number_t * userbuf)
 {
 
     if (userbuf == NULL)
@@ -24,12 +24,10 @@ int iperfstat_cpu_getNumber(iperfstat_cpu_number_t * userbuf)
         /* parameter error */
         errno = EINVAL;
         return -1;
-    }
+    } 
 
-    memset(userbuf, 0, sizeof(iperfstat_cpu_number_t));
-
-    userbuf->ncpus_onli = sysconf(_SC_NPROCESSORS_ONLN);
-    userbuf->ncpus_conf = sysconf(_SC_NPROCESSORS_CONF);
+    userbuf->ncpus_online = sysconf(_SC_NPROCESSORS_ONLN);
+    userbuf->ncpus_configured = sysconf(_SC_NPROCESSORS_CONF);
 
     return 0;
 
