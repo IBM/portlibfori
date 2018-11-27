@@ -23,7 +23,7 @@ shr_64.imp: shr_64.o
 	( \
 	echo '#! libutil.so.1(shr_64.o)'; \
 	echo "# 64"; \
-	dump -X64 -nv shr_64.o | grep EXP | awk '{ print $$NF }' | sort; \
+	dump -X64 -nv shr_64.o | grep EXP | grep -v SECdef | awk '{ print $$NF }' | sort; \
 	) | sed '/__dso_handle/d; /__init_aix_libgcc_cxa_atexit/d' > shr_64.imp
 
 shr_64.o: $(OBJ64)
