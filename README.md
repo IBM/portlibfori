@@ -13,7 +13,7 @@ This makes porting applications easier. Currently provides:
     make
     make install
 
-The Makefile supports PREFIX and DESTDIR variables. The default prefix is /usr/local. To install to a different prefix specify it like so:
+The Makefile supports PREFIX and DESTDIR variables. The default prefix is `/usr/local`. To install to a different prefix specify it like so:
 
     make PREFIX=/QOpenSys/my/prefix install
 
