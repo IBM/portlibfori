@@ -1,11 +1,14 @@
-# Summary
+# Porting Library for IBM i
+
+## Summary
+
 Provides various functions for PASE which are not provided by the AIX runtime.
 
 This makes porting applications easier. Currently provides:
 
 - libutil - openpty/forkpty/login_tty APIs and getopt_long
 
-# Compiling
+## Building
 
     make
     make install
@@ -14,5 +17,5 @@ The Makefile supports PREFIX and DESTDIR variables. The default prefix is /usr/l
 
     make PREFIX=/QOpenSys/my/prefix install
 
-# License
-MIT (See file named LICENSE)
+## License
+Most code is licensed under MIT. See [LICENSE](LICENSE) for more info.
