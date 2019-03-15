@@ -1,0 +1,22 @@
+{
+    "targets": [
+        {
+            "name": "libutil",
+            "type": "library",
+            "version": 1,
+            "objects": [
+                "getopt_long.o",
+                "pty.o",
+                "mkdtemp.o",
+                "backtrace.o"
+            ]
+        }
+    ],
+    "install": {
+        "includes": [
+            "getopt.h",
+            "pty.h",
+            "execinfo.h"            
+        ]
+    }
+}

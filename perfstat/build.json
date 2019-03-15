@@ -1,0 +1,20 @@
+{
+    "targets": [
+        {
+            "name": "libiperf",
+            "type": "library",
+            "version": 1,
+            "objects": [
+                "iperfstat_cpu.o",
+                "iperfstat_memory.o"
+            ]
+        }
+    ],
+    "install": {
+        "includes": [
+            "libiperf.h"
+        ],
+        "libraries": [
+        ]
+    }
+}

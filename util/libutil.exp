@@ -1,0 +1,8 @@
+getopt_long
+getopt_long_only
+forkpty
+openpty
+login_tty
+mkdtemp
+backtrace
+backtrace_symbols
