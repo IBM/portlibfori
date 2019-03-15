@@ -1,5 +1,5 @@
-#ifndef IBMIPERFSTAT_H
-#define IBMIPERFSTAT_H
+#ifndef LIBIPERF_H
+#define LIBIPERF_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -15,12 +15,12 @@ typedef struct {
 int iperfstat_cpu_get_number(iperfstat_cpu_number_t* userbuf);
 
 /* Get main storage size(in kilobytes) */
-int iperfstat_memory_get_main_storage_size();
+int iperfstat_memory_get_main_storage_size(uint64_t* out);
 
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /*undef IBMIPERFSTAT_H*/
+#endif /*undef LIBIPERF_H*/
 
