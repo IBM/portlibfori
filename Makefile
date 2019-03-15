@@ -16,12 +16,12 @@ util/%.o: util/%.c
 
 util/libutil.imp: util/libutil.exp
 	( \
-	echo '#! libutil.so.1(shr_64.o)'; \
+	echo '#! libutil.so.2(shr_64.o)'; \
 	echo "# 64"; \
 	cat util/libutil.exp; \
 	) > util/libutil.imp
 
-util/libutil.so.1: util/libutil.o util/libutil.imp
+util/libutil.so.2: util/libutil.o util/libutil.imp
 	export OBJECT_MODE=32_64
 	mkdir -p util/libutil.tmp
 	cp util/libutil.o util/libutil.tmp/shr_64.o
@@ -31,15 +31,15 @@ util/libutil.so.1: util/libutil.o util/libutil.imp
 	ar -X64 crlo $@ util/libutil.tmp/*
 	rm -r util/libutil.tmp
 
-util/libutil.so: util/libutil.so.1
-	ln -s libutil.so.1 util/libutil.so
+util/libutil.so: util/libutil.so.2
+	ln -s libutil.so.2 util/libutil.so
 
 util/libutil.target: util/libutil.so
 
-install-util-libutil: util/libutil.so util/libutil.so.1
+install-util-libutil: util/libutil.so util/libutil.so.2
 	mkdir -p $(DESTDIR)$(PREFIX)/lib
 	/QOpenSys/usr/bin/cp -h util/libutil.so $(DESTDIR)$(PREFIX)/lib
-	/QOpenSys/usr/bin/cp -h util/libutil.so.1 $(DESTDIR)$(PREFIX)/lib
+	/QOpenSys/usr/bin/cp -h util/libutil.so.2 $(DESTDIR)$(PREFIX)/lib
 	mkdir -p $(DESTDIR)$(PREFIX)/include
 	cp util/getopt.h $(DESTDIR)$(PREFIX)/include
 	cp util/pty.h $(DESTDIR)$(PREFIX)/include

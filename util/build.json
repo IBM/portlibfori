@@ -3,7 +3,7 @@
         {
             "name": "libutil",
             "type": "library",
-            "version": 1,
+            "version": 2,
             "objects": [
                 "getopt_long.o",
                 "pty.o",
