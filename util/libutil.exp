@@ -1,5 +1,6 @@
 getopt_long
 getopt_long_only
+optreset
 forkpty
 openpty
 login_tty
