@@ -133,7 +133,7 @@ int login_tty(int fd)
     // allocate a new session
     if(setsid() == -1) return -1;
     
-    if ((tty_path = ttyname(slave)) == NULL) return -1;
+    if ((tty_path = ttyname(fd)) == NULL) return -1;
     
     // NOTE: AIX does not have an IOCTL to set the controlling terminal.
     // When you open a TTY without a controlling terminal *and* you're
