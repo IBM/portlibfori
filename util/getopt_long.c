@@ -154,7 +154,29 @@ static const char illoptstring[] = "unknown option -- %s";
 
 #ifdef __PASE__
 #include <stdio.h>
-#define warnx(fmt, ...) fprintf(stderr, fmt, __VA_ARGS__)
+#include <stdarg.h>
+
+/* NOTE: While the OpenBSD code uses warnx, we want to mimic FreeBSD and
+ * GLIBC behavior to not exit upon error from getopt_long, so we actually
+ * implement warnx as warn here to minimize code differences.
+ */
+#define warnx(fmt, ...) pase_warn(fmt, __VA_ARGS__)
+
+static int pase_warn(const char* fmt, ...) {
+    int rc;
+    int save_errno;
+    va_list args;
+
+    va_start(args, fmt);
+
+    rc = vfprintf(stderr, fmt, args);
+    save_errno = errno;
+
+    fputs("\n", stderr);
+    errno = save_errno;
+
+    return rc;
+}
 #endif
 
 /*
