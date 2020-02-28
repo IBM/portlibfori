@@ -8,7 +8,8 @@
                 "getopt_long.o",
                 "pty.o",
                 "mkdtemp.o",
-                "backtrace.o"
+                "backtrace.o",
+                "bsd-flock.o"
             ]
         }
     ],
@@ -16,7 +17,8 @@
         "includes": [
             "getopt.h",
             "pty.h",
-            "execinfo.h"            
+            "execinfo.h",
+            ["file.h", "sys/file.h"]
         ]
     }
 }
