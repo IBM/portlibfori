@@ -8,7 +8,7 @@ all: build-all
 
 install: install-all
 
-util/libutil.o: util/getopt_long.o util/pty.o util/mkdtemp.o util/backtrace.o
+util/libutil.o: util/getopt_long.o util/pty.o util/mkdtemp.o util/backtrace.o util/bsd-flock.o
 	$(CC) -shared $(CFLAGS) $(LDFLAGS) -Wl,-bE:util/libutil.exp -o $@ $^
 
 util/%.o: util/%.c
@@ -41,9 +41,11 @@ install-util-libutil: util/libutil.so util/libutil.so.2
 	/QOpenSys/usr/bin/cp -h util/libutil.so $(DESTDIR)$(PREFIX)/lib
 	/QOpenSys/usr/bin/cp -h util/libutil.so.2 $(DESTDIR)$(PREFIX)/lib
 	mkdir -p $(DESTDIR)$(PREFIX)/include
-	cp util/getopt.h $(DESTDIR)$(PREFIX)/include
-	cp util/pty.h $(DESTDIR)$(PREFIX)/include
-	cp util/execinfo.h $(DESTDIR)$(PREFIX)/include
+	mkdir -p $(DESTDIR)$(PREFIX)/include/sys
+	cp util/getopt.h $(DESTDIR)$(PREFIX)/include/getopt.h
+	cp util/pty.h $(DESTDIR)$(PREFIX)/include/pty.h
+	cp util/execinfo.h $(DESTDIR)$(PREFIX)/include/execinfo.h
+	cp util/file.h $(DESTDIR)$(PREFIX)/include/sys/file.h
 
 perfstat/libiperf.o: perfstat/iperfstat_cpu.o perfstat/iperfstat_memory.o
 	$(CC) -shared $(CFLAGS) $(LDFLAGS) -Wl,-bE:perfstat/libiperf.exp -o $@ $^
@@ -78,7 +80,7 @@ install-perfstat-libiperf: perfstat/libiperf.so perfstat/libiperf.so.1
 	/QOpenSys/usr/bin/cp -h perfstat/libiperf.so $(DESTDIR)$(PREFIX)/lib
 	/QOpenSys/usr/bin/cp -h perfstat/libiperf.so.1 $(DESTDIR)$(PREFIX)/lib
 	mkdir -p $(DESTDIR)$(PREFIX)/include
-	cp perfstat/libiperf.h $(DESTDIR)$(PREFIX)/include
+	cp perfstat/libiperf.h $(DESTDIR)$(PREFIX)/include/libiperf.h
 
 build-all: util/libutil.target perfstat/libiperf.target
 

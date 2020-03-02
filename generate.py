@@ -93,8 +93,24 @@ for cfg in glob('*/build.json'):
 
         if 'includes' in install:
             print(f"	mkdir -p $(DESTDIR)$(PREFIX)/include")
-            for include in install['includes']:
-                print(f"	cp {cfg_dir}/{include} $(DESTDIR)$(PREFIX)/include")
+
+            dirs = set()
+            for item in install['includes']:
+                dstfile = item if isinstance(item, str) else item[1]
+
+                directory = dirname(dstfile)
+                if not directory or directory in dirs:
+                    continue
+
+                dirs.add(directory)
+                print(f"	mkdir -p $(DESTDIR)$(PREFIX)/include/{directory}")
+
+            for item in install['includes']:
+                if isinstance(item, str):
+                    srcfile = dstfile = item
+                else:
+                    srcfile, dstfile = item
+                print(f"	cp {cfg_dir}/{srcfile} $(DESTDIR)$(PREFIX)/include/{dstfile}")
     print()
         
 print(f"""
