@@ -70,15 +70,20 @@ size_t backtrace(void** frames, size_t count)
     return i;
 }
 
-char** backtrace_symbols(void* const* frames, size_t count)
-{
-    if(!count) return NULL;
-    
 #ifdef __powerpc64__
 #define FMT "0xFFFFFFFFFFFFFFFF"
 #else
 #define FMT "0xFFFFFFFF"
 #endif
+
+static inline int symbol_to_string(char* buffer, const void* symbol) {
+    return sprintf(buffer, "0x%p", symbol);
+}
+
+char** backtrace_symbols(void* const* frames, size_t count)
+{
+    if(!count) return NULL;
+
     size_t data_size = count * (sizeof(char*) + sizeof(FMT));
     char* data = (char*) malloc(data_size);
     
@@ -87,7 +92,7 @@ char** backtrace_symbols(void* const* frames, size_t count)
     
     for(size_t i = 0; i < count; ++i)
     {
-        int chars_written = sprintf(str, "0x%p", frames[i]);
+        int chars_written = symbol_to_string(str, frames[i]);
         if(chars_written < 0) {
             free(data);
             return NULL;
@@ -100,4 +105,22 @@ char** backtrace_symbols(void* const* frames, size_t count)
     }
     
     return (char**) data;
+}
+
+void backtrace_symbols_fd(void *const *frames, size_t count, int fd) {
+    for(size_t i = 0; i < count; ++i) {
+        char buff[sizeof(FMT)];
+
+        int chars_written = symbol_to_string(buff, frames[i]);
+        if(chars_written >= 0) {
+            buff[chars_written] = '\n';
+            write(fd, buff, chars_written+1);
+        }
+        else {
+            // This only happens if there's an encoding error
+#define ERRSTR "*** error ***\n"
+            write(fd, ERRSTR, sizeof(ERRSTR)-1);
+        }
+
+    }
 }

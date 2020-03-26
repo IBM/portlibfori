@@ -7,4 +7,5 @@ login_tty
 mkdtemp
 backtrace
 backtrace_symbols
+backtrace_symbols_fd
 libutil_flock
