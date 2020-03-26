@@ -6,6 +6,12 @@
 #define __LDINFO_PTRACE32__
 #endif
 
+#ifdef __powerpc64__
+#define TRAMPOLINE_OFFSET 0xA8
+#else
+#define TRAMPOLINE_OFFSET 0x11C
+#endif
+
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
@@ -15,6 +21,7 @@
 #include <execinfo.h>
 
 #include <sys/ldr.h>
+#include <sys/seg.h>
 #include <xcoff.h>
 
 #include <assert.h>
@@ -76,13 +83,8 @@ size_t backtrace(void** frames, size_t count)
         // the displacement is verified to be the proper offset by GDB, and we
         // employ a similar heuristic.
         // XXX: What about syscalls?
-        if (lr < (void*)0x10000000 /* TEXTORG */) {
-#ifdef __powerpc64__
-            sp = (void*)((uint64_t)sp + 0xA8);
-#else
-            // XXX: PPC32 displacement untested
-            sp = (void*)((uint32_t)sp + 0x11C);
-#endif
+        if (lr < (void*)TEXTORG) {
+            sp = (void*)((uint64_t)sp + TRAMPOLINE_OFFSET);
         }
     }
     
