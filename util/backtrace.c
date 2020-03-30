@@ -6,6 +6,12 @@
 #define __LDINFO_PTRACE32__
 #endif
 
+#ifdef __powerpc64__
+#define TRAMPOLINE_OFFSET 0xA8
+#else
+#define TRAMPOLINE_OFFSET 0x11C
+#endif
+
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
@@ -15,6 +21,7 @@
 #include <execinfo.h>
 
 #include <sys/ldr.h>
+#include <sys/seg.h>
 #include <xcoff.h>
 
 #include <assert.h>
@@ -64,7 +71,21 @@ size_t backtrace(void** frames, size_t count)
     // Walk the stack up to count times or we hit the bottom
     // of the stack (whichever is first)
     for(i = 0; i < count && sp; ++i, sp = (void**) sp[0]) {
-        frames[i] = sp[2];
+        void *lr = sp[2];
+        frames[i] = lr;
+        // This might be a signal handler frame, which means the back chain is
+        // useless (missing/in the weeds), so look at what's in the frame. In
+        // this case, what would be the back chain is in one of the fields of
+        // the frame. We need to guess if this is a signal handler frame
+        // though; our heuristic is the address being lower than the base of
+        // text; the signal trampoline is around ~0x3680 under PASE, but AIX
+        // has it at a different address around ~0x4800. The value we use for
+        // the displacement is verified to be the proper offset by GDB, and we
+        // employ a similar heuristic.
+        // XXX: What about syscalls?
+        if (lr < (void*)TEXTORG) {
+            sp = (void*)((uint64_t)sp + TRAMPOLINE_OFFSET);
+        }
     }
     
     return i;
