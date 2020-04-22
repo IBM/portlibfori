@@ -107,6 +107,7 @@ char** backtrace_symbols(void* const* frames, size_t count)
 
     size_t data_size = count * (sizeof(char*) + sizeof(FMT));
     char* data = (char*) malloc(data_size);
+    if(!data) return NULL;
     
     char* array = data;
     char* str = data + (count * sizeof(char*));
