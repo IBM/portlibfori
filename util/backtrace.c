@@ -83,7 +83,7 @@ size_t backtrace(void** frames, size_t count)
         // the displacement is verified to be the proper offset by GDB, and we
         // employ a similar heuristic.
         // XXX: What about syscalls?
-        if (lr < (void*)TEXTORGi && lr != NULL) {
+        if (lr < (void*)TEXTORG && lr != NULL) {
             sp = (void*)((uint64_t)sp + TRAMPOLINE_OFFSET);
         }
     }
