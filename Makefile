@@ -8,7 +8,7 @@ all: build-all
 
 install: install-all
 
-util/libutil.o: util/getopt_long.o util/pty.o util/mkdtemp.o util/backtrace.o util/bsd-flock.o
+util/libutil.o: util/getopt_long.o util/pty.o util/mkdtemp.o util/backtrace.o util/bsd-flock.o util/asprintf.o
 	$(CC) -shared $(CFLAGS) $(LDFLAGS) -Wl,-bE:util/libutil.exp -o $@ $^
 
 util/%.o: util/%.c
@@ -46,6 +46,7 @@ install-util-libutil: util/libutil.so util/libutil.so.2
 	cp util/pty.h $(DESTDIR)$(PREFIX)/include/pty.h
 	cp util/execinfo.h $(DESTDIR)$(PREFIX)/include/execinfo.h
 	cp util/file.h $(DESTDIR)$(PREFIX)/include/sys/file.h
+	cp util/asprintf.h $(DESTDIR)$(PREFIX)/include/asprintf.h
 
 perfstat/libiperf.o: perfstat/iperfstat_cpu.o perfstat/iperfstat_memory.o
 	$(CC) -shared $(CFLAGS) $(LDFLAGS) -Wl,-bE:perfstat/libiperf.exp -o $@ $^
