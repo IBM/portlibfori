@@ -20,7 +20,7 @@
             "pty.h",
             "execinfo.h",
             ["file.h", "sys/file.h"],
-            "asprint.h"
+            ["stdio.h", "stdio.h"]
         ]
     }
 }
