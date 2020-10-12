@@ -9,5 +9,5 @@ backtrace
 backtrace_symbols
 backtrace_symbols_fd
 libutil_flock
-asprintf
-vasprintf
+libutil_asprintf
+libutil_vasprintf

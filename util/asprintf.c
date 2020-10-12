@@ -7,9 +7,9 @@ int libutil_vasprintf(char **ret, const char *format, va_list args)
     *ret = NULL;
 
     va_list args_copy;
-    va_copy(args_copy, args)
-    int size = vsnprintf(NULL, 0, format, args);
-    va_end(args_copy)
+    va_copy(args_copy, args);
+    int size = vsnprintf(NULL, 0, format, args_copy);
+    va_end(args_copy);
 
     if (size == -1) return size;
     
@@ -22,7 +22,7 @@ int libutil_vasprintf(char **ret, const char *format, va_list args)
     if (size == -1)
     {
         free(str);
-        return -1
+        return -1;
     }
 
     *ret = str;

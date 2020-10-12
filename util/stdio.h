@@ -2,8 +2,6 @@
 #ifndef LIBUTIL_STDIO_H
 #define LIBUTIL_STDIO_H
 
-/* Include the real sys/file.h. We don't want to recreate all the stuff */
-/* it contains - just override flock */
 #include_next <stdio.h>
 
 #ifdef __cplusplus
