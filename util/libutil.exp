@@ -11,3 +11,11 @@ backtrace_symbols_fd
 libutil_flock
 libutil_asprintf
 libutil_vasprintf
+libutil_err
+libutil_errx
+libutil_warn
+libutil_warnx
+libutil_verr
+libutil_verrx
+libutil_vwarn
+libutil_vwarnx
