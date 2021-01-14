@@ -10,7 +10,9 @@
                 "mkdtemp.o",
                 "backtrace.o",
                 "bsd-flock.o",
-                "asprintf.o"
+                "asprintf.o",
+                "private.o",
+                "err.o"
             ]
         }
     ],
@@ -20,7 +22,8 @@
             "pty.h",
             "execinfo.h",
             ["file.h", "sys/file.h"],
-            ["stdio.h", "stdio.h"]
+            ["stdio.h", "stdio.h"],
+            "err.h"
         ]
     }
 }
