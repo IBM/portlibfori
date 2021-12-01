@@ -22,8 +22,8 @@
             "getopt.h",
             "pty.h",
             "execinfo.h",
-            ["file.h", "sys/file.h"],
-            ["stdio.h", "stdio.h"],
+            ["wrapper/file.h", "sys/file.h"],
+            ["wrapper/stdio.h", "stdio.h"],
             ["wrapper/unistd.h", "unistd.h"],
             "err.h"
         ]
