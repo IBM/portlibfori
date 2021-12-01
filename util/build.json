@@ -24,8 +24,8 @@
             "execinfo.h",
             ["file.h", "sys/file.h"],
             ["stdio.h", "stdio.h"],
-            "err.h",
-            "unistd.h"
+            ["wrapper/unistd.h", "unistd.h"],
+            "err.h"
         ]
     }
 }
