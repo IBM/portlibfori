@@ -19,7 +19,7 @@
 int libutil_isatty(int fd) {
   int rc;
 
-  rc = ioctl(file, TXISATTY + 0x81, NULL);
+  rc = ioctl(fd, TXISATTY + 0x81, NULL);
   if (rc && errno != EBADF) {
       errno = ENOTTY;
   }
