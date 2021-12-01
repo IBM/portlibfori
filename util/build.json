@@ -12,7 +12,8 @@
                 "bsd-flock.o",
                 "asprintf.o",
                 "private.o",
-                "err.o"
+                "err.o",
+                "isatty.o"
             ]
         }
     ],
@@ -23,6 +24,7 @@
             "execinfo.h",
             ["wrapper/file.h", "sys/file.h"],
             ["wrapper/stdio.h", "stdio.h"],
+            ["wrapper/unistd.h", "unistd.h"],
             "err.h"
         ]
     }

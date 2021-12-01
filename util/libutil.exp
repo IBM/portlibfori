@@ -19,3 +19,4 @@ libutil_verr
 libutil_verrx
 libutil_vwarn
 libutil_vwarnx
+libutil_isatty
