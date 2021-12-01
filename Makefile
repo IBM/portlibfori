@@ -47,6 +47,7 @@ install-util-libutil: util/libutil.so util/libutil.so.2
 	cp util/execinfo.h $(DESTDIR)$(PREFIX)/include/execinfo.h
 	cp util/wrapper/file.h $(DESTDIR)$(PREFIX)/include/sys/file.h
 	cp util/wrapper/stdio.h $(DESTDIR)$(PREFIX)/include/stdio.h
+	cp util/wrapper/unistd.h $(DESTDIR)$(PREFIX)/include/unistd.h
 	cp util/err.h $(DESTDIR)$(PREFIX)/include/err.h
 
 perfstat/libiperf.o: perfstat/iperfstat_cpu.o perfstat/iperfstat_memory.o
