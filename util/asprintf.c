@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+extern int vasprintf(char **ret, const char *format, va_list args)  __asm__("libutil_vasprintf");
+
 int libutil_vasprintf(char **ret, const char *format, va_list args)
 {
     *ret = NULL;
