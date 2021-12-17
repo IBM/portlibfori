@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-extern int vasprintf(char **ret, const char *format, va_list args)  __asm__("libutil_vasprintf");
-
 int libutil_vasprintf(char **ret, const char *format, va_list args)
 {
     *ret = NULL;
@@ -37,7 +35,7 @@ int libutil_asprintf(char **ret, const char *format, ...)
   int r;
   va_list args;
   va_start(args, format);
-  r = vasprintf(ret, format, args);
+  r = libutil_vasprintf(ret, format, args);
   va_end(args);
   return r;
 }
