@@ -35,7 +35,7 @@ int libutil_asprintf(char **ret, const char *format, ...)
   int r;
   va_list args;
   va_start(args, format);
-  r = vasprintf(ret, format, args);
+  r = libutil_vasprintf(ret, format, args);
   va_end(args);
   return r;
 }
