@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
+#include <procinfo.h>
 
 #include "err.h"
 #include "private.h"
@@ -64,4 +65,38 @@ void libutil_errx(int eval, const char *fmt, ...) {
     va_start(args, fmt);
 
     verrx(eval, fmt, args);
+}
+
+extern int getargs(void *, int, char *, int);
+
+static const char* __progname = NULL;
+
+const char* getprogname (void) {
+
+    if (!__progname) {
+        static char buffer[PATH_MAX];
+        struct procentry64 entry;
+        pid_t pid = getpid();
+
+        if(getprocs64(&entry, sizeof(entry), NULL, 0, &pid, 1) > 0)
+        {
+            if(getargs(&entry, sizeof(entry), buffer, sizeof(buffer)) == 0)
+            {
+                const char *p;
+                __progname = buffer;
+                p = strrchr (__progname, '/');
+                if (p != NULL)
+                    __progname = p + 1;
+            }
+        }
+    }
+
+    return __progname;
+}
+
+void setprogname (const char* progname) {
+
+    __progname = progname;
+
+    return;
 }

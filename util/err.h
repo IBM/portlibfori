@@ -11,4 +11,8 @@ __attribute__((noreturn)) void verr(int eval, const char *fmt, va_list args) __a
 __attribute__((noreturn)) void verrx(int eval, const char *fmt, va_list args) __asm__("libutil_verrx");
 __attribute__((noreturn)) void err(int eval, const char *fmt, ...) __asm__("libutil_err");
 __attribute__((noreturn)) void errx(int eval, const char *fmt, ...) __asm__("libutil_errx");
+
+const char* getprogname (void);
+void setprogname(const char *);
+
 #endif
