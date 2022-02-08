@@ -20,3 +20,5 @@ libutil_verrx
 libutil_vwarn
 libutil_vwarnx
 libutil_isatty
+libutil_getprogname
+libutil_setprogname

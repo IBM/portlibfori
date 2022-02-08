@@ -6,10 +6,9 @@
 #include <procinfo.h>
 
 #include "err.h"
-#include "private.h"
 
 void libutil_vwarn(const char *fmt, va_list args) {
-    fprintf(stderr, "%s: ", getprogname());
+    fprintf(stderr, "%s: ", libuitl_getprogname());
     if (fmt) {
         vfprintf(stderr, fmt, args);
         fprintf(stderr, ": %s\n", strerror(errno));
@@ -20,7 +19,7 @@ void libutil_vwarn(const char *fmt, va_list args) {
 }
 
 void libutil_vwarnx(const char *fmt, va_list args) {
-    fprintf(stderr, "%s: ", getprogname());
+    fprintf(stderr, "%s: ", libuitl_getprogname());
     if (fmt) {
         vfprintf(stderr, fmt, args);
     }
@@ -69,35 +68,19 @@ void libutil_errx(int eval, const char *fmt, ...) {
 
 extern int getargs(void *, int, char *, int);
 
-static char buffer[PATH_MAX];
 static const char* __progname = NULL;
 
-const char* getprogname (void) {
-
-    if (!__progname) {
-        struct procentry64 entry;
-        pid_t pid = getpid();
-
-        if(getprocs64(&entry, sizeof(entry), NULL, 0, &pid, 1) > 0)
-        {
-            if(getargs(&entry, sizeof(entry), buffer, sizeof(buffer)) == 0)
-            {
-                const char *p;
-                __progname = buffer;
-                p = strrchr (__progname, '/');
-                if (p != NULL)
-                    __progname = p + 1;
-            }
-        }
-    }
-
+const char* libuitl_getprogname (void) {
     return __progname;
 }
 
-void setprogname (const char* progname) {
-
-    strcpy(buffer, progname);
-    __progname = buffer;
-
+void libuitl_setprogname (const char* progname) {
+    const char *p;
+    p = strrchr (progname, '/');
+    if (p != NULL) {
+        __progname = p + 1;
+    } else {
+        __progname = progname;
+    }
     return;
 }
