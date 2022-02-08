@@ -69,12 +69,12 @@ void libutil_errx(int eval, const char *fmt, ...) {
 
 extern int getargs(void *, int, char *, int);
 
+static char buffer[PATH_MAX];
 static const char* __progname = NULL;
 
 const char* getprogname (void) {
 
     if (!__progname) {
-        static char buffer[PATH_MAX];
         struct procentry64 entry;
         pid_t pid = getpid();
 
@@ -96,7 +96,8 @@ const char* getprogname (void) {
 
 void setprogname (const char* progname) {
 
-    __progname = progname;
+    strcpy(buffer, progname);
+    __progname = buffer;
 
     return;
 }
