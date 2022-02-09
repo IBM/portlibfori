@@ -5,10 +5,11 @@
 #include <errno.h>
 
 #include "err.h"
-#include "private.h"
+
+const char* libutil_getprogname (void);
 
 void libutil_vwarn(const char *fmt, va_list args) {
-    fprintf(stderr, "%s: ", getprogname());
+    fprintf(stderr, "%s: ", libutil_getprogname());
     if (fmt) {
         vfprintf(stderr, fmt, args);
         fprintf(stderr, ": %s\n", strerror(errno));
@@ -19,7 +20,7 @@ void libutil_vwarn(const char *fmt, va_list args) {
 }
 
 void libutil_vwarnx(const char *fmt, va_list args) {
-    fprintf(stderr, "%s: ", getprogname());
+    fprintf(stderr, "%s: ", libutil_getprogname());
     if (fmt) {
         vfprintf(stderr, fmt, args);
     }

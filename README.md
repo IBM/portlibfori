@@ -18,6 +18,8 @@ Contains various functions found in Linux, BSD, etc but not found on AIX:
 - mkdtemp
 - backtrace
 - backtrace_symbols
+- libutil_getprogname
+- libutil_setprogname
 
 ### libiperf
 
