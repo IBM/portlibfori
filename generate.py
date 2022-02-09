@@ -21,7 +21,7 @@ install: install-all
 all_targets = []
 all_install = []
 
-for cfg in glob('*/build.json'):
+for cfg in sorted(glob('*/build.json')):
     cfg_dir = dirname(cfg)
 
     try:
