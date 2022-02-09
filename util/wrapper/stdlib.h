@@ -9,6 +9,8 @@
 extern "C" {
 #endif
 
+const char* libutil_getprogname(void);
+void libutil_setprogname(const char *);
 const char* getprogname(void) __asm__ ("libutil_getprogname");
 void setprogname(const char *) __asm__ ("libutil__setprogname");
 
