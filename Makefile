@@ -43,7 +43,7 @@ install-perfstat-libiperf: perfstat/libiperf.so perfstat/libiperf.so.1
 	mkdir -p $(DESTDIR)$(PREFIX)/include
 	cp perfstat/libiperf.h $(DESTDIR)$(PREFIX)/include/libiperf.h
 
-util/libutil.o: util/getopt_long.o util/pty.o util/mkdtemp.o util/backtrace.o util/bsd-flock.o util/asprintf.o util/private.o util/err.o util/isatty.o util/progname.o
+util/libutil.o: util/getopt_long.o util/pty.o util/mkdtemp.o util/backtrace.o util/bsd-flock.o util/asprintf.o util/progname.o util/err.o util/isatty.o
 	$(CC) -shared $(CFLAGS) $(LDFLAGS) -Wl,-bE:util/libutil.exp -o $@ $^
 
 util/%.o: util/%.c

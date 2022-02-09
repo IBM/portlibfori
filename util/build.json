@@ -11,10 +11,9 @@
                 "backtrace.o",
                 "bsd-flock.o",
                 "asprintf.o",
-                "private.o",
+                "progname.o",
                 "err.o",
-                "isatty.o",
-                "progname.o"
+                "isatty.o"
             ]
         }
     ],
