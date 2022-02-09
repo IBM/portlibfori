@@ -12,7 +12,4 @@ __attribute__((noreturn)) void verrx(int eval, const char *fmt, va_list args) __
 __attribute__((noreturn)) void err(int eval, const char *fmt, ...) __asm__("libutil_err");
 __attribute__((noreturn)) void errx(int eval, const char *fmt, ...) __asm__("libutil_errx");
 
-const char* libuitl_getprogname (void);
-void libuitl_setprogname(const char *);
-
 #endif

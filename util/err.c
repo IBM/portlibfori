@@ -3,12 +3,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-#include <procinfo.h>
 
 #include "err.h"
+#include "stdlib.h"
 
 void libutil_vwarn(const char *fmt, va_list args) {
-    fprintf(stderr, "%s: ", libuitl_getprogname());
+    fprintf(stderr, "%s: ", libutil_getprogname());
     if (fmt) {
         vfprintf(stderr, fmt, args);
         fprintf(stderr, ": %s\n", strerror(errno));
@@ -19,7 +19,7 @@ void libutil_vwarn(const char *fmt, va_list args) {
 }
 
 void libutil_vwarnx(const char *fmt, va_list args) {
-    fprintf(stderr, "%s: ", libuitl_getprogname());
+    fprintf(stderr, "%s: ", libutil_getprogname());
     if (fmt) {
         vfprintf(stderr, fmt, args);
     }
@@ -64,23 +64,4 @@ void libutil_errx(int eval, const char *fmt, ...) {
     va_start(args, fmt);
 
     verrx(eval, fmt, args);
-}
-
-extern int getargs(void *, int, char *, int);
-
-static const char* __progname = NULL;
-
-const char* libuitl_getprogname (void) {
-    return __progname;
-}
-
-void libuitl_setprogname (const char* progname) {
-    const char *p;
-    p = strrchr (progname, '/');
-    if (p != NULL) {
-        __progname = p + 1;
-    } else {
-        __progname = progname;
-    }
-    return;
 }
