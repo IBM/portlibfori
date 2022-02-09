@@ -5,7 +5,8 @@
 #include <errno.h>
 
 #include "err.h"
-#include "stdlib.h"
+
+const char* libutil_getprogname (void);
 
 void libutil_vwarn(const char *fmt, va_list args) {
     fprintf(stderr, "%s: ", libutil_getprogname());

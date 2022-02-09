@@ -13,7 +13,8 @@
                 "asprintf.o",
                 "private.o",
                 "err.o",
-                "isatty.o"
+                "isatty.o",
+                "progname.o"
             ]
         }
     ],
@@ -25,6 +26,7 @@
             ["wrapper/file.h", "sys/file.h"],
             ["wrapper/stdio.h", "stdio.h"],
             ["wrapper/unistd.h", "unistd.h"],
+            ["wrapper/stdlib.h", "stdlib.h"],
             "err.h"
         ]
     }

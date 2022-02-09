@@ -8,7 +8,42 @@ all: build-all
 
 install: install-all
 
-util/libutil.o: util/getopt_long.o util/pty.o util/mkdtemp.o util/backtrace.o util/bsd-flock.o util/asprintf.o util/err.o util/progname.o util/isatty.o
+perfstat/libiperf.o: perfstat/iperfstat_cpu.o perfstat/iperfstat_memory.o
+	$(CC) -shared $(CFLAGS) $(LDFLAGS) -Wl,-bE:perfstat/libiperf.exp -o $@ $^
+
+perfstat/%.o: perfstat/%.c
+	$(CC) -c $(CFLAGS) -Iperfstat -o $@ $^
+
+perfstat/libiperf.imp: perfstat/libiperf.exp
+	( \
+	echo '#! libiperf.so.1(shr_64.o)'; \
+	echo "# 64"; \
+	cat perfstat/libiperf.exp; \
+	) > perfstat/libiperf.imp
+
+perfstat/libiperf.so.1: perfstat/libiperf.o perfstat/libiperf.imp
+	export OBJECT_MODE=32_64
+	mkdir -p perfstat/libiperf.tmp
+	cp perfstat/libiperf.o perfstat/libiperf.tmp/shr_64.o
+	cp perfstat/libiperf.imp perfstat/libiperf.tmp/shr_64.imp
+	cd perfstat/libiperf.tmp
+	strip -e perfstat/libiperf.tmp/shr_64.o 2> /dev/null || :
+	ar -X64 crlo $@ perfstat/libiperf.tmp/*
+	rm -r perfstat/libiperf.tmp
+
+perfstat/libiperf.so: perfstat/libiperf.so.1
+	ln -s libiperf.so.1 perfstat/libiperf.so
+
+perfstat/libiperf.target: perfstat/libiperf.so
+
+install-perfstat-libiperf: perfstat/libiperf.so perfstat/libiperf.so.1
+	mkdir -p $(DESTDIR)$(PREFIX)/lib
+	/QOpenSys/usr/bin/cp -h perfstat/libiperf.so $(DESTDIR)$(PREFIX)/lib
+	/QOpenSys/usr/bin/cp -h perfstat/libiperf.so.1 $(DESTDIR)$(PREFIX)/lib
+	mkdir -p $(DESTDIR)$(PREFIX)/include
+	cp perfstat/libiperf.h $(DESTDIR)$(PREFIX)/include/libiperf.h
+
+util/libutil.o: util/getopt_long.o util/pty.o util/mkdtemp.o util/backtrace.o util/bsd-flock.o util/asprintf.o util/private.o util/err.o util/isatty.o util/progname.o
 	$(CC) -shared $(CFLAGS) $(LDFLAGS) -Wl,-bE:util/libutil.exp -o $@ $^
 
 util/%.o: util/%.c
@@ -51,44 +86,9 @@ install-util-libutil: util/libutil.so util/libutil.so.2
 	cp util/wrapper/stdlib.h $(DESTDIR)$(PREFIX)/include/stdlib.h
 	cp util/err.h $(DESTDIR)$(PREFIX)/include/err.h
 
-perfstat/libiperf.o: perfstat/iperfstat_cpu.o perfstat/iperfstat_memory.o
-	$(CC) -shared $(CFLAGS) $(LDFLAGS) -Wl,-bE:perfstat/libiperf.exp -o $@ $^
+build-all: perfstat/libiperf.target util/libutil.target
 
-perfstat/%.o: perfstat/%.c
-	$(CC) -c $(CFLAGS) -Iperfstat -o $@ $^
-
-perfstat/libiperf.imp: perfstat/libiperf.exp
-	( \
-	echo '#! libiperf.so.1(shr_64.o)'; \
-	echo "# 64"; \
-	cat perfstat/libiperf.exp; \
-	) > perfstat/libiperf.imp
-
-perfstat/libiperf.so.1: perfstat/libiperf.o perfstat/libiperf.imp
-	export OBJECT_MODE=32_64
-	mkdir -p perfstat/libiperf.tmp
-	cp perfstat/libiperf.o perfstat/libiperf.tmp/shr_64.o
-	cp perfstat/libiperf.imp perfstat/libiperf.tmp/shr_64.imp
-	cd perfstat/libiperf.tmp
-	strip -e perfstat/libiperf.tmp/shr_64.o 2> /dev/null || :
-	ar -X64 crlo $@ perfstat/libiperf.tmp/*
-	rm -r perfstat/libiperf.tmp
-
-perfstat/libiperf.so: perfstat/libiperf.so.1
-	ln -s libiperf.so.1 perfstat/libiperf.so
-
-perfstat/libiperf.target: perfstat/libiperf.so
-
-install-perfstat-libiperf: perfstat/libiperf.so perfstat/libiperf.so.1
-	mkdir -p $(DESTDIR)$(PREFIX)/lib
-	/QOpenSys/usr/bin/cp -h perfstat/libiperf.so $(DESTDIR)$(PREFIX)/lib
-	/QOpenSys/usr/bin/cp -h perfstat/libiperf.so.1 $(DESTDIR)$(PREFIX)/lib
-	mkdir -p $(DESTDIR)$(PREFIX)/include
-	cp perfstat/libiperf.h $(DESTDIR)$(PREFIX)/include/libiperf.h
-
-build-all: util/libutil.target perfstat/libiperf.target
-
-install-all: install-util-libutil install-perfstat-libiperf
+install-all: install-perfstat-libiperf install-util-libutil
 
 .PHONY: clean
 
