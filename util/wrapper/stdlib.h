@@ -11,7 +11,10 @@ extern "C" {
 
 const char* libutil_getprogname(void);
 void libutil_setprogname(const char *);
+<<<<<<< HEAD
 
+=======
+>>>>>>> c3cf23cf1c43af40993d2d14bdaea6d8b7c0551b
 const char* getprogname(void) __asm__ ("libutil_getprogname");
 void setprogname(const char *) __asm__ ("libutil__setprogname");
 
