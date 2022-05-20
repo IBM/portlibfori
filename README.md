@@ -18,6 +18,7 @@ Contains various functions found in Linux, BSD, etc but not found on AIX:
 - mkdtemp
 - backtrace
 - backtrace_symbols
+- daemon
 - libutil_getprogname
 - libutil_setprogname
 
