@@ -1,4 +1,5 @@
 #include "ebcutils.h"
+#include "ibmierrinfo.h"
 #include <string.h>
 #include <ctype.h>
 #include <as400_protos.h>
