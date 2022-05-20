@@ -4,9 +4,14 @@
 
 static int libutil_daemon(int nochdir, int noclose)
 {
-  if (-1 == fork())
+  switch (fork())
   {
-    return -1;
+    case -1:
+      return -1;
+    case 0:
+      break;
+    default:
+      exit(0);
   }
 
   if (-1 == setsid())
