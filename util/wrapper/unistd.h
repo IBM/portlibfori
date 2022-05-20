@@ -10,6 +10,7 @@ extern "C" {
 #endif
 
 extern int libutil_isatty(int fd);
+extern int daemon(int nochdir, int noclose)  __asm__("libutil_daemon");
 
 #ifdef __cplusplus
 }
