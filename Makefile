@@ -34,6 +34,36 @@ perfstat/libiperf.so.1: perfstat/libiperf.o perfstat/libiperf.imp
 perfstat/libiperf.so: perfstat/libiperf.so.1
 	ln -s libiperf.so.1 perfstat/libiperf.so
 
+ibmi/%.o: ibmi/%.c
+	$(CC) -c $(CFLAGS) -Iibmi -Iutil -Wno-int-conversion -o $@ $^
+
+
+ibmi/libibmi.imp: ibmi/libibmi.exp
+	( \
+	echo '#! libibmi.so.1(shr_64.o)'; \
+	echo "# 64"; \
+	cat ibmi/libibmi.exp; \
+	) > ibmi/libibmi.imp
+
+ibmi/libibmi.o: ibmi/ebcutils.o  ibmi/ibmierrinfo.o  ibmi/joblog.o  ibmi/qsygetph.o
+	cat ibmi/libibmi.exp
+	$(CC) -shared $(CFLAGS) $(LDFLAGS) -Wl,-bE:ibmi/libibmi.exp -Libmi -liconv -lutil -o $@ $^
+
+ibmi/libibmi.so.1: ibmi/libibmi.o ibmi/libibmi.imp
+	export OBJECT_MODE=32_64
+	mkdir -p ibmi/libibmi.tmp
+	cp ibmi/libibmi.o ibmi/libibmi.tmp/shr_64.o
+	cp ibmi/libibmi.imp ibmi/libibmi.tmp/shr_64.imp
+	cd ibmi/libibmi.tmp
+	strip -e ibmi/libibmi.tmp/shr_64.o 2> /dev/null || :
+	ar -X64 crlo $@ ibmi/libibmi.tmp/*
+	rm -r ibmi/libibmi.tmp
+
+ibmi/libibmi.so: ibmi/libibmi.so.1
+	ln -sf libibmi.so.1 ibmi/libibmi.so
+
+ibmi/libibmi.target: ibmi/libibmi.so
+
 perfstat/libiperf.target: perfstat/libiperf.so
 
 install-perfstat-libiperf: perfstat/libiperf.so perfstat/libiperf.so.1
@@ -86,7 +116,7 @@ install-util-libutil: util/libutil.so util/libutil.so.2
 	cp util/wrapper/stdlib.h $(DESTDIR)$(PREFIX)/include/stdlib.h
 	cp util/err.h $(DESTDIR)$(PREFIX)/include/err.h
 
-build-all: perfstat/libiperf.target util/libutil.target
+build-all: perfstat/libiperf.target util/libutil.target ibmi/libibmi.target
 
 install-all: install-perfstat-libiperf install-util-libutil
 
