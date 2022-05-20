@@ -10,6 +10,7 @@ extern "C" {
 #endif
 
 extern int libutil_isatty(int fd);
+extern int libutil_daemon(int nochdir, int noclose);
 
 #ifdef __cplusplus
 }
