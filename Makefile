@@ -45,7 +45,7 @@ ibmi/libibmi.imp: ibmi/libibmi.exp
 	cat ibmi/libibmi.exp; \
 	) > ibmi/libibmi.imp
 
-ibmi/libibmi.o: ibmi/ebcutils.o  ibmi/ibmierrinfo.o  ibmi/joblog.o  ibmi/qsygetph.o
+ibmi/libibmi.o: ibmi/ebcutils.o  ibmi/joblog.o  ibmi/qsygetph.o
 	cat ibmi/libibmi.exp
 	$(CC) -shared $(CFLAGS) $(LDFLAGS) -Wl,-bE:ibmi/libibmi.exp -Libmi -liconv -lutil -o $@ $^
 
