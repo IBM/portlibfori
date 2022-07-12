@@ -22,3 +22,8 @@ libutil_vwarnx
 libutil_isatty
 libutil_getprogname
 libutil_setprogname
+libutil_strlcat
+libutil_strlcpy
+libutil_glob
+libutil_globfree
+libutil_glob_pattern_p

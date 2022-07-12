@@ -13,7 +13,10 @@
                 "asprintf.o",
                 "progname.o",
                 "err.o",
-                "isatty.o"
+                "isatty.o",
+                "glob.o",
+                "strlcpy.o",
+                "strlcat.o"
             ]
         }
     ],
@@ -26,6 +29,8 @@
             ["wrapper/stdio.h", "stdio.h"],
             ["wrapper/unistd.h", "unistd.h"],
             ["wrapper/stdlib.h", "stdlib.h"],
+            ["wrapper/string.h", "string.h"],
+            ["wrapper/glob.h", "glob.h"],
             "err.h"
         ]
     }

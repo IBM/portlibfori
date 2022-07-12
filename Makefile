@@ -43,7 +43,7 @@ install-perfstat-libiperf: perfstat/libiperf.so perfstat/libiperf.so.1
 	mkdir -p $(DESTDIR)$(PREFIX)/include
 	cp perfstat/libiperf.h $(DESTDIR)$(PREFIX)/include/libiperf.h
 
-util/libutil.o: util/getopt_long.o util/pty.o util/mkdtemp.o util/backtrace.o util/bsd-flock.o util/asprintf.o util/progname.o util/err.o util/isatty.o
+util/libutil.o: util/getopt_long.o util/pty.o util/mkdtemp.o util/backtrace.o util/bsd-flock.o util/asprintf.o util/progname.o util/err.o util/isatty.o util/glob.o util/strlcpy.o util/strlcat.o
 	$(CC) -shared $(CFLAGS) $(LDFLAGS) -Wl,-bE:util/libutil.exp -o $@ $^
 
 util/%.o: util/%.c
@@ -84,6 +84,8 @@ install-util-libutil: util/libutil.so util/libutil.so.2
 	cp util/wrapper/stdio.h $(DESTDIR)$(PREFIX)/include/stdio.h
 	cp util/wrapper/unistd.h $(DESTDIR)$(PREFIX)/include/unistd.h
 	cp util/wrapper/stdlib.h $(DESTDIR)$(PREFIX)/include/stdlib.h
+	cp util/wrapper/string.h $(DESTDIR)$(PREFIX)/include/string.h
+	cp util/wrapper/glob.h $(DESTDIR)$(PREFIX)/include/glob.h
 	cp util/err.h $(DESTDIR)$(PREFIX)/include/err.h
 
 build-all: perfstat/libiperf.target util/libutil.target
