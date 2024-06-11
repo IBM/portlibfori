@@ -13,7 +13,8 @@
                 "asprintf.o",
                 "progname.o",
                 "err.o",
-                "isatty.o"
+                "isatty.o",
+                "fnmatch.o"
             ]
         }
     ],
@@ -26,6 +27,7 @@
             ["wrapper/stdio.h", "stdio.h"],
             ["wrapper/unistd.h", "unistd.h"],
             ["wrapper/stdlib.h", "stdlib.h"],
+            ["wrapper/fnmatch.h", "fnmatch.h"],
             "err.h"
         ]
     }

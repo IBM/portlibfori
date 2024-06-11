@@ -22,3 +22,4 @@ libutil_vwarnx
 libutil_isatty
 libutil_getprogname
 libutil_setprogname
+libutil_fnmatch
