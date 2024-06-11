@@ -74,7 +74,7 @@ for cfg in sorted(glob('*/build.json')):
 	rm -r {cfg_dir}/{name}.tmp
 
 {cfg_dir}/{name}.so: {cfg_dir}/{soname}
-	ln -s {soname} {cfg_dir}/{name}.so
+	ln -sf {soname} {cfg_dir}/{name}.so
 
 {cfg_dir}/{name}.target: {cfg_dir}/{name}.so
 """

@@ -32,7 +32,7 @@ perfstat/libiperf.so.1: perfstat/libiperf.o perfstat/libiperf.imp
 	rm -r perfstat/libiperf.tmp
 
 perfstat/libiperf.so: perfstat/libiperf.so.1
-	ln -s libiperf.so.1 perfstat/libiperf.so
+	ln -sf libiperf.so.1 perfstat/libiperf.so
 
 perfstat/libiperf.target: perfstat/libiperf.so
 
@@ -67,7 +67,7 @@ util/libutil.so.2: util/libutil.o util/libutil.imp
 	rm -r util/libutil.tmp
 
 util/libutil.so: util/libutil.so.2
-	ln -s libutil.so.2 util/libutil.so
+	ln -sf libutil.so.2 util/libutil.so
 
 util/libutil.target: util/libutil.so
 
