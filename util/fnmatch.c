@@ -3,8 +3,7 @@
 #include <ctype.h>
 #include <fnmatch.h>
 
-#define FNM_FILE_NAME FNM_PATHNAME // Preferred GNU name
-#define FNM_CASEFOLD  0x4000000    // Some large power of 2 to avoid collisions
+#define FNM_CASEFOLD  0x4000000 // Some large power of 2 to avoid collisions
 
 void str_to_lower(char *str) {
   while (*str) {
@@ -34,7 +33,7 @@ int libutil_fnmatch(const char *pattern, const char *string, int flags)
 
 
     // Use fnmatch to compare the lowercase strings
-    result = fnmatch(lower_pattern, lower_string, flags);
+    result = fnmatch(lower_pattern, lower_string, flags ^ FNM_CASEFOLD);
 
     // Clean up
     free(lower_pattern);
